@@ -42,21 +42,31 @@ if (isset($conn)) {
     }
 }
 
-// Home page ke liye banners table se latest active banner ka SEO data fetch karna
+// Fetch Blogs
+$blogs_res = false;
+if (isset($conn)) {
+    $blogs_res = mysqli_query($conn, "SELECT * FROM blogs WHERE status = 1 ORDER BY blog_id DESC LIMIT 3");
+}
+
+$contact_data = [];
+if (isset($conn)) {
+    $contact_query = mysqli_query($conn, "SELECT * FROM contacts ORDER BY id ASC LIMIT 1");
+    if ($contact_query && mysqli_num_rows($contact_query) > 0) {
+        $contact_data = mysqli_fetch_assoc($contact_query);
+    }
+}
+
+// SEO Data Fetch
 $seo_banner_query = mysqli_query($conn, "SELECT meta_title, meta_key, meta_desc FROM banners WHERE status = 0 ORDER BY display_order ASC, id DESC LIMIT 1");
+$metaTitle = "AK Avocado Traders | Premium Agricultural Produce";
+$meta_description = "AK Avocado Traders is committed to delivering premium-quality avocados and fresh agricultural produce to domestic and international markets.";
+$meta_keywords = "avocados, fresh produce, agricultural export, AK Avocado Traders, premium avocados";
+
 if ($seo_banner_query && mysqli_num_rows($seo_banner_query) > 0) {
     $seo_data = mysqli_fetch_assoc($seo_banner_query);
-    
-    // Agar admin ne admin panel se meta fields bhare hain, toh unhe variables mein daal dein
-    if (!empty($seo_data['meta_title'])) {
-        $metaTitle = $seo_data['meta_title'];
-    }
-    if (!empty($seo_data['meta_desc'])) {
-        $meta_description = $seo_data['meta_desc'];
-    }
-    if (!empty($seo_data['meta_key'])) {
-        $meta_keywords = $seo_data['meta_key'];
-    }
+    if (!empty($seo_data['meta_title'])) $metaTitle = $seo_data['meta_title'];
+    if (!empty($seo_data['meta_desc'])) $meta_description = $seo_data['meta_desc'];
+    if (!empty($seo_data['meta_key'])) $meta_keywords = $seo_data['meta_key'];
 }
 
 include("includes/header.php");
@@ -70,360 +80,271 @@ include("includes/header.php");
     <title><?= htmlspecialchars($metaTitle); ?></title>
     <meta name="description" content="<?= htmlspecialchars($meta_description); ?>">
     <meta name="keywords" content="<?= htmlspecialchars($meta_keywords); ?>">
-    <link rel="icon" href="<?= htmlspecialchars($favicon); ?>" type="image/png">
-    <!-- Organization & Local Business Schema -->
+    <!-- Google Fonts for Modern Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="<?= isset($favicon) ? htmlspecialchars($favicon) : 'assets/images/logo/logo.png'; ?>" type="image/png">
+    
+    <!-- Organization Schema -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Bhagirath Enterprise",
-  "url": "<?= $site; ?>",
-  "logo": "<?= $site; ?>
-  /assets/images/logo/logo.png",
+  "name": "AK Avocado Traders",
+  "url": "<?= isset($site) ? $site : 'https://akavocadotraders.com'; ?>",
+  "logo": "<?= isset($site) ? $site : ''; ?>/assets/images/logo/logo.png",
+  "description": "Exporting premium-quality avocados and fresh farm produce globally.",
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+91-8448211202",
+    "telephone": "+91-XXXXXXXXXX",
     "contactType": "customer service",
-    "areaServed": "IN",
+    "areaServed": "Global",
     "availableLanguage": ["en", "hi"]
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Office No-102, 1st Floor, Nitika Tower II, Block C-1, Pocket-4, Azadpur",
-    "addressLocality": "Delhi",
-    "postalCode": "110033",
-    "addressCountry": "IN"
-  },
-  "sameAs": [
-    "https://www.facebook.com",
-    "https://www.linkedin.com"
-  ]
+  }
 }
 </script>
 </head>
 <body>
     
-<!-- Hero Slider Section Start -->
-<div id="heroCarousel" class="carousel slide carousel-fade hero-slider" data-bs-ride="carousel" data-bs-pause="false">
-    <div class="carousel-indicators">
+<!-- Modern Hero Banner Section -->
+<div id="heroCarousel" class="carousel slide carousel-fade hero-slider modern-hero" data-bs-ride="carousel" data-bs-pause="false" style="background-color: #1A4329;">
+    <div class="carousel-indicators premium-indicators">
         <?php
         if ($banner_res && mysqli_num_rows($banner_res) > 0):
             $i = 0;
             mysqli_data_seek($banner_res, 0);
             while ($b_row = mysqli_fetch_assoc($banner_res)):
         ?>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $i ?>" class="<?= ($i == 0) ? 'active' : '' ?>" aria-current="<?= ($i == 0) ? 'true' : 'false' ?>" aria-label="Slide <?= $i + 1 ?>"></button>
-            <?php
-                $i++;
-            endwhile;
-        else:
-            ?>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $i ?>" class="<?= ($i == 0) ? 'active' : '' ?>"></button>
+            <?php $i++; endwhile; else: ?>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
         <?php endif; ?>
     </div>
 
-    <div class="carousel-inner">
+    <div class="carousel-inner h-100">
         <?php
         if ($banner_res && mysqli_num_rows($banner_res) > 0):
             $j = 0;
             mysqli_data_seek($banner_res, 0);
             while ($banner = mysqli_fetch_assoc($banner_res)):
-                $bannerImg = !empty($banner['banner_path']) ? $banner['banner_path'] : 'assets/images/black.png';
+                // Image path fix for admin uploads
+                $bannerImg = !empty($banner['banner_path']) ? 'admin/' . $banner['banner_path'] : 'https://images.unsplash.com/photo-1519999482648-25049ddd37b1?q=80&w=1920&auto=format&fit=crop';
         ?>
-                <div class="carousel-item <?= ($j == 0) ? 'active' : '' ?>" data-bs-interval="5000">
-                    <div class="slide-bg" style="background-image: url('admin/<?= htmlspecialchars($bannerImg) ?>');"></div>
-                    <div class="carousel-caption">
-                        <div class="container">
+                <div class="carousel-item h-100 <?= ($j == 0) ? 'active' : '' ?>" data-bs-interval="6000">
+                    <div class="slide-bg modern-overlay" style="background-image: url('<?= htmlspecialchars($bannerImg) ?>');"></div>
+                    <div class="carousel-caption modern-caption">
+                        <div class="container text-center">
+                            <span class="hero-subtitle">Farm Fresh Delivery</span>
                             <h2 class="hero-title"><?= htmlspecialchars($banner['title']) ?></h2>
-                            <p><?= htmlspecialchars($banner['description']) ?></p>
-                            <div>
-                                <a href="<?= !empty($banner['link_url']) ? htmlspecialchars($banner['link_url']) : 'products.php' ?>" class="btn-primary-custom">Explore Products</a>
-                                <a href="contact.php" class="btn-outline-custom">Contact an Expert</a>
+                            <p class="hero-desc mx-auto"><?= htmlspecialchars($banner['description']) ?></p>
+                            <div class="hero-btns mt-4">
+                                <a href="<?= !empty($banner['link_url']) ? htmlspecialchars($banner['link_url']) : 'products.php' ?>" class="btn-primary-organic">Explore Products</a>
+                                <a href="contact.php" class="btn-outline-organic">Partner With Us</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php
-                $j++;
-            endwhile;
-        else:
-            ?>
-            <div class="carousel-item active" data-bs-interval="5000">
-                <div class="slide-bg" style="background-image: url('assets/images/banner1.jpg');"></div>
-                <div class="carousel-caption">
-                    <div class="container">
-                        <h2 class="hero-title">Premium Indian Spices <br><span style="color: #711b3c;">& Dry Fruits</span></h2>
-                        <p>Bhagirath Enterprise exports the finest quality agricultural products worldwide with unmatched purity.</p>
-                        <div>
-                            <a href="products.php" class="btn-primary-custom">Explore Products</a>
-                            <a href="contact.php" class="btn-outline-custom">Contact an Expert</a>
+            <?php $j++; endwhile; else: ?>
+            <!-- Fallback Banner if database is empty -->
+            <div class="carousel-item h-100 active" data-bs-interval="6000">
+                <div class="slide-bg modern-overlay" style="background-image: url('https://images.unsplash.com/photo-1519999482648-25049ddd37b1?q=80&w=1920&auto=format&fit=crop');"></div>
+                <div class="carousel-caption modern-caption">
+                    <div class="container text-center">
+                        <span class="hero-subtitle">Premium Quality Export</span>
+                        <h2 class="hero-title">100% Pure & Fresh <br><span class="text-avocado">Avocados</span></h2>
+                        <p class="hero-desc mx-auto">Sourced directly from trusted farms, delivering natural taste and nutritional value across the globe.</p>
+                        <div class="hero-btns mt-4">
+                            <a href="products.php" class="btn-primary-organic">Our Produce</a>
+                            <a href="contact.php" class="btn-outline-organic">Get a Quote</a>
                         </div>
                     </div>
                 </div>
             </div>
         <?php endif; ?>
     </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
 </div>
 
-<!-- About Us Section (Dynamic from about_sections table) -->
-<section class="section-padding">
+<!-- Premium About Section -->
+<section class="section-padding about-organic">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <div class="about-img-wrapper">
-                    <?php 
-                    // Database se image path fetch karna (agar khali ho toh default image dikhegi)
-                    $aboutImg = !empty($about_data['image_url']) ? 'admin/' . $about_data['image_url'] : 'assets/images/about.jpg';
-                    ?>
-                    <img src="<?= htmlspecialchars($aboutImg); ?>" alt="<?= !empty($about_data['title']) ? htmlspecialchars($about_data['title']) : 'Bhagirath Enterprise Premium Quality'; ?>" onerror="this.src='https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=800&auto=format&fit=crop'">
-                    <div class="about-experience">
-                        <h3 class="mb-0">100%</h3>
-                        <p class="mb-0 small">Authentic Quality</p>
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 position-relative">
+                <div class="about-image-grid">
+                    <?php $aboutImg = !empty($about_data['image_url']) ? 'admin/uploads/' . $about_data['image_url'] : 'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=800&auto=format&fit=crop'; ?>
+                    <img src="<?= htmlspecialchars($aboutImg); ?>" alt="AK Avocado Traders" class="main-img rounded-4 shadow-lg w-100">
+                    <div class="experience-badge shadow-lg">
+                        <i class="bi bi-shield-check fs-1 text-white mb-2"></i>
+                        <h4 class="mb-0 text-white fw-bold">Premium</h4>
+                        <p class="mb-0 text-white-50 small">Export Quality</p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 ps-lg-5">
-                <span class="text-uppercase" style="color: #711b3c; font-size: 14px; font-weight: 600; letter-spacing: 1px;">Who We Are</span>
-                
-                <!-- Dynamic Title from database -->
-                <h1 class="section-title mb-4 h2">
-                    <?= !empty($about_data['title']) ? htmlspecialchars($about_data['title']) : 'Exporting the Finest Flavors & Agricultural Wealth of India'; ?>
-                </h1>
-                
-                <!-- Dynamic Description/Content from database -->
-                <div class="text-muted-custom mb-4">
-                    <?php 
-                    if (!empty($about_data['content'])) {
-                        // Agar admin ne rich text / HTML tags ke sath content save kiya hai toh usko render karega
-                        echo $about_data['content']; 
-                    } else {
-                        // Fallback text agar table khali ho
-                        echo '<p>At <strong>Bhagirath Enterprise</strong>, we specialize in processing and exporting premium quality whole spices, dry fruits, and authentic Indian agricultural products.</p>';
-                    }
-                    ?>
+            <div class="col-lg-6">
+                <div class="about-content ps-lg-4">
+                    <span class="badge-organic mb-3">About AK Avocado Traders</span>
+                    <h2 class="section-heading mb-4">
+                        <?= !empty($about_data['title']) ? htmlspecialchars($about_data['title']) : 'Bringing the Finest Farm-Fresh Produce to Your Doorstep'; ?>
+                    </h2>
+                    <div class="text-muted-organic mb-4">
+                        <?php 
+                        if (!empty($about_data['content'])) {
+                            echo $about_data['content']; 
+                        } else {
+                            echo '<p>At <strong>AK Avocado Traders</strong>, we are committed to delivering premium-quality avocados and fresh agricultural produce to customers across domestic and international markets. With a strong focus on quality, freshness, and customer satisfaction, we source our products directly from trusted farms that follow sustainable and ethical farming practices.</p>
+                            <p>Every avocado is carefully selected, graded, and packed to preserve its natural taste, nutritional value, and freshness throughout the supply chain. Our dedication to timely delivery and international standards makes us your trusted partner.</p>';
+                        }
+                        ?>
+                    </div>
+                    <ul class="list-unstyled organic-list mb-5">
+                        <li><i class="bi bi-check-circle-fill"></i> Sustainable & Ethical Farming</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Strict Quality Grading</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Timely Global Delivery</li>
+                    </ul>
+                    <a href="about.php" class="btn-primary-organic">Discover Our Story <i class="bi bi-arrow-right ms-2"></i></a>
                 </div>
-                
-                <a href="about.php" class="btn btn-quote" style="background-color:#222222; border-color:#222222; color: white; padding: 10px 25px; border-radius: 5px;">Read More About Us</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Dynamic Categories Section -->
-<section class="section-padding bg-light-grey">
+<!-- Modern Categories Grid -->
+<section class="section-padding bg-light-green">
     <div class="container">
-        <div class="text-center mb-5 d-flex flex-column">
-            <span class="text-uppercase" style="color: #711b3c; font-size: 14px; font-weight: 600; letter-spacing: 1px;">Shop By Category</span>
-            <h2 class="section-title mx-auto">Our Premium Categories</h2>
-            <p class="text-muted-custom mt-3 max-w-700 mx-auto" style="max-width: 600px;">Explore our diverse range of high-quality, farm-fresh agricultural categories, carefully sourced to meet global standards.</p>
+        <div class="text-center mb-5">
+            <span class="badge-organic mb-2">Explore By Category</span>
+            <h2 class="section-heading">Our Fresh Offerings</h2>
         </div>
-
-        <div class="row g-4">
+        <div class="row g-4 justify-content-center">
             <?php
             if ($categories_res && mysqli_num_rows($categories_res) > 0):
                 while ($cat = mysqli_fetch_assoc($categories_res)):
-                    $catImg = !empty($cat['image']) ? 'admin/uploads/category/' . $cat['image'] : 'assets/images/black.png';
+                    $catImg = !empty($cat['image']) ? 'admin/uploads/category/' . $cat['image'] : 'assets/images/default-cat.jpg';
                     $catSlug = !empty($cat['slug_url']) ? $cat['slug_url'] : $cat['cate_id'];
             ?>
                     <div class="col-lg-4 col-md-6">
-                        <div class="service-card h-100 bg-white shadow-sm rounded overflow-hidden text-center">
-                            <div class="service-img-container" style="height: 250px; overflow: hidden; background-color: #f8f9fa;">
-                                <img src="<?= htmlspecialchars($catImg) ?>" alt="<?= htmlspecialchars($cat['categories']) ?>" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/black.png'">
+                        <div class="category-card-modern">
+                            <div class="img-zoom">
+                                <img src="<?= htmlspecialchars($catImg) ?>" alt="<?= htmlspecialchars($cat['categories']) ?>">
                             </div>
-                            <div class="card-body p-4">
-                                <h3 class="service-title" style="color: #222222; font-weight: 700; font-size: 1.5rem;"><?= htmlspecialchars($cat['categories']) ?></h3>
-                                <p class="text-muted-custom small mb-4">
-                                    <?= htmlspecialchars(substr($cat['meta_desc'], 0, 80)) ?>...
-                                </p>
-                                <a href="products.php?category=<?= urlencode($catSlug) ?>" class="btn-quote-outline d-inline-block mt-2">View Category</a>
+                            <div class="card-content">
+                                <h3><?= htmlspecialchars($cat['categories']) ?></h3>
+                                <p><?= htmlspecialchars(substr($cat['meta_desc'], 0, 70)) ?>...</p>
+                                <a href="products.php?category=<?= urlencode($catSlug) ?>" class="btn-link-organic">View Products <i class="bi bi-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
-                <?php
-                endwhile;
-            else:
-                ?>
-                <div class="col-12 text-center text-muted">No categories available right now.</div>
+                <?php endwhile; else: ?>
+                <div class="col-12 text-center text-muted">Categories are being updated.</div>
             <?php endif; ?>
         </div>
     </div>
 </section>
 
-<!-- Why Choose Us Section -->
-<section class="section-padding">
+<!-- Why Choose Us Section (Updated Design) -->
+<section class="section-padding" style="background-color: #FFFFFF;">
     <div class="container">
-        <div class="text-center mb-5 d-flex flex-column">
-            <span class="text-uppercase" style="color: #711b3c; font-size: 14px; font-weight: 600; letter-spacing: 1px;">Why Bhagirath Enterprise</span>
-            <h2 class="section-title mx-auto">The Trusted Choice for Global Exports</h2>
+        <div class="text-center mb-5">
+            <span class="badge-organic mb-2">Our Core Values</span>
+            <h2 class="section-heading">Why Choose Us</h2>
         </div>
-
-        <div class="row g-4">
+        <div class="row text-center g-4 justify-content-center">
             <div class="col-lg-3 col-md-6">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
-                    <h5 class="feature-title">Certified Quality</h5>
-                    <p class="text-muted-custom small mb-0">Our products meet rigorous global food safety standards ensuring 100% purity and authenticity.</p>
+                <div class="value-box">
+                    <div class="icon-circle"><i class="bi bi-tree"></i></div>
+                    <h4>Trusted Farms</h4>
+                    <p>Sourced from sustainable and ethical agricultural practices.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="bi bi-globe"></i></div>
-                    <h5 class="feature-title">Global Export</h5>
-                    <p class="text-muted-custom small mb-0">Seamless international logistics and timely delivery to our clients across the globe.</p>
+                <div class="value-box">
+                    <div class="icon-circle"><i class="bi bi-box-seam"></i></div>
+                    <h4>Careful Grading</h4>
+                    <p>Hand-picked, graded, and packed to preserve nutritional value.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="bi bi-basket"></i></div>
-                    <h5 class="feature-title">Farm Fresh Sourcing</h5>
-                    <p class="text-muted-custom small mb-0">Ethically sourced directly from the finest Indian farms to preserve natural aroma and taste.</p>
+                <div class="value-box">
+                    <div class="icon-circle"><i class="bi bi-globe2"></i></div>
+                    <h4>Global Standards</h4>
+                    <p>Meeting competitive pricing and international quality criteria.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
-                    <h5 class="feature-title">Competitive Pricing</h5>
-                    <p class="text-muted-custom small mb-0">Premium quality agricultural and food exports offered at the best international market rates.</p>
+                <div class="value-box">
+                    <div class="icon-circle"><i class="bi bi-truck"></i></div>
+                    <h4>Timely Delivery</h4>
+                    <p>Reliable logistics ensuring farm freshness at your doorstep.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Dynamic Products Section -->
-<section class="section-padding" style="background-color: #ffffff;">
+<!-- Dynamic Products Presentation -->
+<section class="section-padding bg-light-gray">
     <div class="container">
         <div class="d-flex justify-content-between align-items-end mb-5">
             <div>
-                <span class="text-uppercase d-flex flex-column" style="color: #711b3c; font-size: 14px; font-weight: 600; letter-spacing: 1px;">Our Produce</span>
-                <h2 class="section-title mb-0">Premium Export Products</h2>
+                <span class="badge-organic mb-2">Premium Produce</span>
+                <h2 class="section-heading mb-0">Export Quality Products</h2>
             </div>
-            <div class="d-none d-md-block">
-                <a href="products.php" class="btn btn-outline-dark" style="border-radius: 20px; font-weight: 600;">View All Products</a>
-            </div>
+            <a href="products.php" class="btn-outline-organic d-none d-md-inline-block">View Entire Range</a>
         </div>
 
         <div class="row g-4">
             <?php
             if ($products_res && mysqli_num_rows($products_res) > 0):
                 while ($prod = mysqli_fetch_assoc($products_res)):
-                    $proImg = !empty($prod['pro_img']) ? 'admin/assets/img/uploads/' . $prod['pro_img'] : 'assets/images/black.png';
-                    
-                    // Slug check: Agar slug_url database mein khali hai toh fallback ke liye id use karega
+                    $proImg = !empty($prod['pro_img']) ? 'admin/assets/img/uploads/' . $prod['pro_img'] : 'assets/images/default-pro.jpg';
                     $productSlug = !empty($prod['slug_url']) ? $prod['slug_url'] : $prod['id'];
             ?>
                     <div class="col-lg-3 col-md-6">
-                        <div class="product-card h-100 shadow-sm border rounded overflow-hidden">
-                            <span class="product-badge">Export Grade</span>
-                            <div class="product-img-wrapper" style="height: 200px; overflow: hidden;">
+                        <div class="product-card-premium">
+                            <div class="product-thumb">
+                                <span class="badge-quality">Premium</span>
                                 <a href="product-details.php?slug=<?php echo urlencode($productSlug); ?>">
-                                <img src="<?= htmlspecialchars($proImg) ?>" alt="<?= htmlspecialchars($prod['pro_name']) ?>" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/images/black.png'">
+                                    <img src="<?= htmlspecialchars($proImg) ?>" alt="<?= htmlspecialchars($prod['pro_name']) ?>">
                                 </a>
                             </div>
-                            <div class="p-4">
-                                <a href="product-details.php?slug=<?php echo urlencode($productSlug); ?>" style="text-decoration:none;"> 
-                                <h3 class="product-title" style="font-size: 1.05rem; font-weight: 700; height: 48px; overflow: hidden;">
-                                    <?= htmlspecialchars($prod['pro_name']) ?>
-                                </h3>
+                            <div class="product-info">
+                                <a href="product-details.php?slug=<?php echo urlencode($productSlug); ?>"> 
+                                    <h4><?= htmlspecialchars($prod['pro_name']) ?></h4>
                                 </a>
-                                <div class="mb-3">
-                                    <a href="product-details.php?slug=<?php echo urlencode($productSlug); ?>" class="view-details-link">View Details <i class="bi bi-chevron-right" style="font-size: 0.8rem;"></i></a>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <a href="tel:+918448211202" class="btn-call" title="Call for inquiry">
-                                        <i class="bi bi-telephone-fill"></i>
-                                    </a>
-                                    <a href="contact.php?product=<?= urlencode($prod['pro_name']) ?>" class="btn btn-quote-full flex-grow-1 text-center py-2 text-decoration-none">Inquire Now</a>
+                                <div class="action-flex">
+                                    <a href="product-details.php?slug=<?php echo urlencode($productSlug); ?>" class="read-more">Details</a>
+                                    <a href="contact.php?product=<?= urlencode($prod['pro_name']) ?>" class="btn-inquire">Inquire</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <?php
-                endwhile;
-            else:
-                ?>
-                <div class="col-12 text-center text-muted">No products found.</div>
+                <?php endwhile; else: ?>
+                <div class="col-12 text-center text-muted">Our product catalog is updating.</div>
             <?php endif; ?>
         </div>
-
         <div class="text-center mt-4 d-block d-md-none">
-            <a href="products.php" class="btn btn-outline-dark" style="border-radius: 20px; font-weight: 600;">View All Products</a>
+            <a href="products.php" class="btn-outline-organic">View Entire Range</a>
         </div>
     </div>
 </section>
 
-<!-- Dynamic Testimonials Section -->
-<section class="section-padding" style="background-color: #fdfdfd; border-top: 1px solid #f0f0f0;">
-    <div class="container">
-        <div class="text-center mb-5 d-flex flex-column">
-            <span class="text-uppercase" style="color: #711b3c; font-size: 14px; font-weight: 600; letter-spacing: 1px;">Client Feedback</span>
-            <h2 class="section-title mx-auto">What Our Trusted Partners Say</h2>
-        </div>
+<!-- Dynamic Brands / Client Logo Slider Section -->
+<section class="brands-section section-padding bg-light-green">
+    <div class="container text-center">
+        <span class="badge-organic mb-2">Our Network</span>
+        <h2 class="section-heading mb-3">Trusted Global Partners</h2>
+        <p class="text-muted-organic mx-auto mb-5" style="max-width: 650px;">We collaborate with top-tier wholesalers, retailers, and food businesses worldwide to ensure our premium produce reaches every market efficiently.</p>
         
-        <div class="row g-4 justify-content-center">
-            <?php 
-            if ($test_res && mysqli_num_rows($test_res) > 0): 
-                while($test = mysqli_fetch_assoc($test_res)):
-                    $testImg = !empty($test['image']) ? 'admin/uploads/testimonials/' . $test['image'] : 'assets/images/clove.png';
-            ?>
-            <div class="col-lg-4 col-md-6">
-                <div class="testimonial-card p-4 bg-white shadow-sm rounded-4 h-100 position-relative transition-up">
-                    <i class="bi bi-quote position-absolute" style="font-size: 5rem; color: rgba(113, 27, 60, 0.05); top: -10px; right: 20px; z-index: 0;"></i>
-                    
-                    <div class="position-relative z-1">
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="test-img-wrap rounded-circle overflow-hidden me-3 shadow-sm" style="width: 65px; height: 65px; border: 3px solid #f8f9fa;">
-                                <img src="<?= htmlspecialchars($testImg) ?>" alt="<?= htmlspecialchars($test['name']) ?>" class="w-100 h-100" style="object-fit: cover;" onerror="this.src='assets/images/default-avatar.png'">
-                            </div>
-                            <div>
-                                <h4 class="mb-0" style="color: #222222; font-weight: 700; font-size: 1.1rem;"><?= htmlspecialchars($test['name']) ?></h4>
-                                <span class="text-muted small fw-semibold" style="color: #711b3c !important;"><?= htmlspecialchars($test['designation']) ?></span>
-                            </div>
-                        </div>
-                        <div class="stars mb-2" style="color: #FFD700; font-size: 0.9rem;">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                        <p class="text-muted-custom small mb-0" style="font-style: italic; line-height: 1.6;">
-                            "<?= htmlspecialchars($test['message']) ?>"
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <?php 
-                endwhile;
-            else:
-            ?>
-                <div class="col-12 text-center text-muted">Client reviews will be updated shortly.</div>
-            <?php endif; ?>
-        </div>
-    </div>
-</section>
-
-<!-- Dynamic Brands Slider Section -->
-<section class="brands-slider-section py-5" style="background-color: #f8f9fa; border-top: 1px solid #eaeaea;">
-    <div class="container">
-        <h2 class="text-center mb-5" style="color: #222222; font-weight: 700; font-size: 1.5rem; letter-spacing: 1px;">OUR TRUSTED CLIENTS & PARTNERS</h2>
-        
-        <div class="brand-slider-container">
+        <div class="brand-slider-container bg-white p-4 rounded-4 shadow-sm">
             <div class="brand-slide-track">
                 <?php if(!empty($brands_array)): ?>
                     <?php 
-                    for($loop = 0; $loop < 2; $loop++):
+                    // Loop multiple times to create continuous infinite scroll effect
+                    for($loop = 0; $loop < 3; $loop++):
                         foreach($brands_array as $brand):
-                            $brandLogo = !empty($brand['logo_path']) ? $brand['logo_path'] : '';
+                            $brandLogo = !empty($brand['logo_path']) ? 'admin/'.$brand['logo_path'] : '';
                     ?>
                     <div class="brand-slide">
                         <?php if(!empty($brandLogo)): ?>
-                            <img src="admin/<?= htmlspecialchars($brandLogo) ?>" alt="<?= htmlspecialchars($brand['brand_name']) ?>" title="<?= htmlspecialchars($brand['brand_name']) ?>">
+                            <img src="<?= htmlspecialchars($brandLogo) ?>" alt="<?= htmlspecialchars($brand['brand_name']) ?>" title="<?= htmlspecialchars($brand['brand_name']) ?>">
                         <?php else: ?>
                             <span class="fw-bold text-dark"><?= htmlspecialchars($brand['brand_name']) ?></span>
                         <?php endif; ?>
@@ -433,210 +354,105 @@ include("includes/header.php");
                     endfor; 
                     ?>
                 <?php else: ?>
-                    <div class="brand-slide"><h4 class="brand-logo">FSSAI</h4></div>
-                    <div class="brand-slide"><h4 class="brand-logo">APEDA</h4></div>
-                    <div class="brand-slide"><h4 class="brand-logo">SPICES BOARD</h4></div>
+                    <div class="col-12 text-muted">No partners added yet.</div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Premium Inquiry Section -->
-<section class="inquiry-section section-padding position-relative" style="background-color: #711b3c; background-image: linear-gradient(135deg, rgba(113, 27, 60, 0.95) 0%, rgba(40, 10, 20, 0.98) 100%), url('assets/images/contact-bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
-    
-    <div class="container position-relative z-1">
-        <div class="row align-items-center">
-            
-            <!-- Left Side Content -->
-            <div class="col-lg-5 text-white mb-5 mb-lg-0 pe-lg-4">
-                <span class="badge mb-3 px-3 py-2" style="background: rgba(255,255,255,0.15); color: #fff; font-weight: 600; letter-spacing: 1px; border-radius: 30px;">GET IN TOUCH</span>
-                <h2 class="mb-4" style="font-weight: 700; font-size: 2.8rem; line-height: 1.2; color: #ffffff;">Partner with Bhagirath Enterprise.</h2>
-                <p class="mb-5" style="color: rgba(255,255,255,0.85); font-size: 1.05rem; line-height: 1.7;">Ready to experience the finest export-quality agricultural products? Whether you have bulk requirements, need customized packaging, or want to explore our product range, our experts are here to assist you.</p>
-                
-                <ul class="list-unstyled mb-0 contact-info-list">
-                    <!-- Head Office -->
-                    <li class="mb-4 d-flex align-items-center p-3 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
-                        <div class="icon-box me-4 text-center d-flex align-items-center justify-content-center shadow-sm" style="background: #ffffff; width: 55px; height: 55px; border-radius: 50%; flex-shrink: 0;">
-                            <i class="bi bi-geo-alt-fill" style="font-size: 1.5rem; color: #711b3c;"></i>
+<!-- Dynamic Blog Section -->
+<section class="section-padding" style="background-color: #FFFFFF;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-5">
+            <div>
+                <span class="badge-organic mb-2">Latest Insights</span>
+                <h2 class="section-heading mb-0">News & Articles</h2>
+            </div>
+            <a href="blog.php" class="btn-outline-organic text-dark border-dark d-none d-md-inline-block hover-green">View All Blogs</a>
+        </div>
+
+        <div class="row g-4">
+            <?php
+            if ($blogs_res && mysqli_num_rows($blogs_res) > 0):
+                while ($blog = mysqli_fetch_assoc($blogs_res)):
+                    // Check logic based on how images are stored in db.
+                    $blogImg = !empty($blog['image']) ? 'admin/assets/img/' . $blog['image'] : 'https://images.unsplash.com/photo-1490818387583-1b057d5f836c?q=80&w=600&auto=format&fit=crop';
+            ?>
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card-modern shadow-sm">
+                        <div class="blog-img-wrapper">
+                            <a href="blog-details.php?slug=<?= urlencode($blog['slug']) ?>">
+                                <img src="<?= htmlspecialchars($blogImg) ?>" alt="<?= htmlspecialchars($blog['title']) ?>">
+                            </a>
+                            <div class="blog-date">
+                                <span class="d-block fw-bold fs-5"><?= date('d', strtotime($blog['created_at'])) ?></span>
+                                <span class="small"><?= date('M Y', strtotime($blog['created_at'])) ?></span>
+                            </div>
                         </div>
-                        <div>
-                            <strong class="d-block mb-1" style="color: #fff; font-size: 1.1rem; letter-spacing: 0.5px;">Head Office</strong>
-                            <span style="color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.4; display: block;">Office No-102, 1st Floor, Nitika Tower II, Block C-1, Pocket-4, Azadpur, Delhi - 110033</span>
+                        <div class="blog-content p-4">
+                            <span class="text-avocado fw-bold small text-uppercase mb-2 d-block"><i class="bi bi-person-circle"></i> <?= htmlspecialchars($blog['author']) ?></span>
+                            <a href="blog-details.php?slug=<?= urlencode($blog['slug']) ?>" class="text-decoration-none">
+                                <h4 class="blog-title text-dark fw-bold mb-3"><?= htmlspecialchars(substr($blog['title'], 0, 50)) ?>...</h4>
+                            </a>
+                            <p class="text-muted small mb-4"><?= strip_tags(substr($blog['description'], 0, 100)) ?>...</p>
+                            <a href="blog-details.php?slug=<?= urlencode($blog['slug']) ?>" class="read-more-link fw-bold">Read Article <i class="bi bi-arrow-right"></i></a>
                         </div>
-                    </li>
-                    <!-- Phone -->
-                    <li class="mb-4 d-flex align-items-center p-3 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
-                        <div class="icon-box me-4 text-center d-flex align-items-center justify-content-center shadow-sm" style="background: #ffffff; width: 55px; height: 55px; border-radius: 50%; flex-shrink: 0;">
-                            <i class="bi bi-telephone-fill" style="font-size: 1.5rem; color: #711b3c;"></i>
-                        </div>
-                        <div>
-                            <strong class="d-block mb-1" style="color: #fff; font-size: 1.1rem; letter-spacing: 0.5px;">Call Us</strong>
-                            <span style="color: rgba(255,255,255,0.7); font-size: 0.95rem; display: block;">+91-8448211202 (Mr. Anuj)</span>
-                            <span style="color: rgba(255,255,255,0.7); font-size: 0.95rem; display: block;">+91-9870491393 (Vicky)</span>
-                        </div>
-                    </li>
-                    <!-- Email -->
-                    <li class="d-flex align-items-center p-3 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
-                        <div class="icon-box me-4 text-center d-flex align-items-center justify-content-center shadow-sm" style="background: #ffffff; width: 55px; height: 55px; border-radius: 50%; flex-shrink: 0;">
-                            <i class="bi bi-envelope-fill" style="font-size: 1.5rem; color: #711b3c;"></i>
-                        </div>
-                        <div>
-                            <strong class="d-block mb-1" style="color: #fff; font-size: 1.1rem; letter-spacing: 0.5px;">Email Us</strong>
-                            <span style="color: rgba(255,255,255,0.7); font-size: 0.95rem; display: block;">bhagirathenterprise7@gmail.com</span>
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+            <?php endwhile; else: ?>
+                <div class="col-12 text-center text-muted">No blogs published yet.</div>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<!-- Elegant Contact Section with Dynamic Map -->
+<section class="inquiry-modern py-4">
+    <div class="container-fluid px-8">
+        <div class="row g-0">
+            <!-- Left Side: Map iframe from DB -->
+            <div class="col-lg-6 map-panel">
+                <?php 
+                // Getting map iframe link from database (contacts table)
+                if(!empty($contact_data['map'])): ?>
+                    <iframe src="<?= htmlspecialchars($contact_data['map']) ?>" width="100%" height="100%" style="border:0; min-height: 550px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <?php else: ?>
+                    <div class="d-flex align-items-center justify-content-center bg-light h-100" style="min-height: 550px;">
+                        <span class="text-muted">Map will be updated shortly</span>
+                    </div>
+                <?php endif; ?>
             </div>
             
-            <!-- Right Side Inquiry Form (Floating Labels Design) -->
-            <div class="col-lg-7">
-                <div class="inquiry-form-wrapper bg-white p-4 p-md-5 rounded-4 shadow-lg position-relative" style="border: 1px solid rgba(0,0,0,0.05);">
-                    <div class="text-center mb-4">
-                        <h3 class="text-dark mb-2" style="font-weight: 800; font-size: 2rem;">Request a Free Quote</h3>
-                        <p class="text-muted small">Fill out the form below and our team will get back to you within 24 hours.</p>
-                    </div>
-                    
+            <!-- Right Side: Form -->
+            <div class="col-lg-6 bg-light-green p-5 d-flex align-items-center">
+                <div class="form-wrapper w-100" style="max-width: 600px; margin: 0 auto;">
+                    <span class="badge-organic mb-3">Get In Touch</span>
+                    <h3 class="fw-bold text-dark mb-4 section-heading fs-2">Request a Quote</h3>
+                    <p class="text-muted mb-4">Fill out the form below and our team will get back to you within 24 hours.</p>
                     <form action="inquiry-process.php" method="POST">
-                        <div class="row g-4">
+                        <div class="row g-3">
                             <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" name="name" class="form-control premium-input" id="nameInput" placeholder="Full Name" required>
-                                    <label for="nameInput">Full Name *</label>
-                                </div>
+                                <input type="text" name="name" class="form-control input-organic" placeholder="Your Name" required>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" name="phone" class="form-control premium-input" id="phoneInput" placeholder="Phone Number" required>
-                                    <label for="phoneInput">Phone Number *</label>
-                                </div>
+                                <input type="text" name="phone" class="form-control input-organic" placeholder="Phone Number" required>
                             </div>
                             <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="email" name="email" class="form-control premium-input" id="emailInput" placeholder="Email Address" required>
-                                    <label for="emailInput">Email Address *</label>
-                                </div>
+                                <input type="email" name="email" class="form-control input-organic" placeholder="Email Address" required>
                             </div>
                             <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="text" name="subject" class="form-control premium-input" id="subjectInput" placeholder="Product of Interest" required>
-                                    <label for="subjectInput">Product of Interest *</label>
-                                </div>
+                                <textarea name="message" class="form-control input-organic" rows="4" placeholder="Your Requirements" required></textarea>
                             </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <textarea name="message" class="form-control premium-input" id="messageInput" placeholder="Your Message" style="height: 120px" required></textarea>
-                                    <label for="messageInput">Your Message / Requirements *</label>
-                                </div>
-                            </div>
-                            <div class="col-12 mt-3">
-                                <button type="submit" class="btn btn-maroon-glow w-100 py-3 text-uppercase fw-bold tracking-wide">
-                                    Send Inquiry Now <i class="bi bi-arrow-right ms-2"></i>
-                                </button>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn-primary-organic w-100 py-3 fs-5">Send Message <i class="bi bi-send ms-2"></i></button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            
         </div>
     </div>
 </section>
-
-<!-- 6. FREQUENTLY ASKED QUESTIONS -->
-<section class="section-padding" style="background-color: #fdfdfd;">
-    <div class="container">
-        <div class="row justify-content-center">
-
-            <div class="col-lg-8 reveal">
-                <div class="text-center mb-5">
-                    <span class="sec-subtitle text-uppercase fw-bold" style="color: #E3000F; letter-spacing: 1px; font-size: 14px;">Clear Your Doubts</span>
-                    <h2 class="sec-title" style="color: #17385A; font-weight: 700;">Frequently Asked Questions</h2>
-                </div>
-
-                <!-- Bootstrap 5 Accordion -->
-                <div class="accordion faq-accordion shadow-sm" id="exportFaqAccordion">
-
-                    <!-- FAQ Item 1 -->
-                    <div class="accordion-item border-0 mb-3 rounded overflow-hidden">
-                        <h3 class="accordion-header" id="faqHeading1">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1" aria-expanded="true" aria-controls="faqCollapse1" style="font-weight: 600; color: #17385A; background-color: #f8f9fa;">
-                                Are your agricultural products certified for global export?
-                            </button>
-                        </h3>
-                        <div id="faqCollapse1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#exportFaqAccordion">
-                            <div class="accordion-body text-muted small">
-                                Yes, absolutely. Bhagirath Enterprise strictly complies with global food safety standards. Our exports are backed by necessary quality checks and certifications to clear customs smoothly in your destination country.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- FAQ Item 2 -->
-                    <div class="accordion-item border-0 mb-3 rounded overflow-hidden">
-                        <h3 class="accordion-header" id="faqHeading2">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2" aria-expanded="false" aria-controls="faqCollapse2" style="font-weight: 600; color: #17385A; background-color: #f8f9fa;">
-                                Do you handle B2B bulk orders and container shipments?
-                            </button>
-                        </h3>
-                        <div id="faqCollapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#exportFaqAccordion">
-                            <div class="accordion-body text-muted small">
-                                Yes, our core expertise lies in B2B wholesale and bulk container shipments (FCL/LCL). We supply high volumes of dry fruits, whole spices, and other commodities tailored to your commercial needs.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- FAQ Item 3 -->
-                    <div class="accordion-item border-0 mb-3 rounded overflow-hidden">
-                        <h3 class="accordion-header" id="faqHeading3">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3" aria-expanded="false" aria-controls="faqCollapse3" style="font-weight: 600; color: #17385A; background-color: #f8f9fa;">
-                                What is your Minimum Order Quantity (MOQ)?
-                            </button>
-                        </h3>
-                        <div id="faqCollapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#exportFaqAccordion">
-                            <div class="accordion-body text-muted small">
-                                The Minimum Order Quantity (MOQ) varies depending on the specific product and the shipping method. Please reach out to our sales team at bhagirathenterprise7@gmail.com for exact product-wise MOQs.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- FAQ Item 4 -->
-                    <div class="accordion-item border-0 mb-3 rounded overflow-hidden">
-                        <h3 class="accordion-header" id="faqHeading4">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4" aria-expanded="false" aria-controls="faqCollapse4" style="font-weight: 600; color: #17385A; background-color: #f8f9fa;">
-                                Do you offer customized or private label packaging?
-                            </button>
-                        </h3>
-                        <div id="faqCollapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4" data-bs-parent="#exportFaqAccordion">
-                            <div class="accordion-body text-muted small">
-                                Yes, we offer customized packaging solutions, including bulk PP bags, jute bags, vacuum packs, and private labeling for retail brands. Let us know your packaging requirements during the inquiry process.
-                            </div>
-                        </div>
-                    </div>
-
-                </div> <!-- End Accordion -->
-            </div>
-
-        </div>
-    </div>
-</section>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const reveals = document.querySelectorAll(".reveal");
-        const revealOnScroll = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("active");
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.15
-        });
-
-        reveals.forEach(reveal => revealOnScroll.observe(reveal));
-    });
-</script>
 
 <?php include('includes/footer.php'); ?>

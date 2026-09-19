@@ -12,7 +12,7 @@ $footer_about_text = "Bhagirath Enterprise is a leading exporter of premium agri
 
 if (isset($conn)) {
     // 2. ERROR FIX: Pehli query mein 'footer' location search karni hai
-    $f_logo_query = mysqli_query($conn, "SELECT logo_path FROM logos WHERE location = 'footer' AND is_active = 1 ORDER BY id DESC LIMIT 1");
+    $f_logo_query = mysqli_query($conn, "SELECT logo_path FROM logos WHERE location = 'header' AND is_active = 1 ORDER BY id DESC LIMIT 1");
 
     // Fallback: Agar footer logo nahi mila, tab 'header' logo check karega
     if (!$f_logo_query || mysqli_num_rows($f_logo_query) == 0) {

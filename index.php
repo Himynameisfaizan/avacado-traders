@@ -169,7 +169,7 @@ include("includes/header.php");
         <div class="row align-items-center g-5">
             <div class="col-lg-6 position-relative">
                 <div class="about-image-grid">
-                    <?php $aboutImg = !empty($about_data['image_url']) ? 'admin/uploads/' . $about_data['image_url'] : 'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=800&auto=format&fit=crop'; ?>
+                    <?php $aboutImg = !empty($about_data['image_url']) ? 'admin/' . $about_data['image_url'] : 'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=800&auto=format&fit=crop'; ?>
                     <img src="<?= htmlspecialchars($aboutImg); ?>" alt="AK Avocado Traders" class="main-img rounded-4 shadow-lg w-100">
                     <div class="experience-badge shadow-lg">
                         <i class="bi bi-shield-check fs-1 text-white mb-2"></i>
@@ -377,7 +377,7 @@ include("includes/header.php");
             if ($blogs_res && mysqli_num_rows($blogs_res) > 0):
                 while ($blog = mysqli_fetch_assoc($blogs_res)):
                     // Check logic based on how images are stored in db.
-                    $blogImg = !empty($blog['image']) ? 'admin/assets/img/' . $blog['image'] : 'https://images.unsplash.com/photo-1490818387583-1b057d5f836c?q=80&w=600&auto=format&fit=crop';
+                    $blogImg = !empty($blog['image']) ? 'admin/assets/img/uploads/blogs/' . $blog['image'] : 'https://images.unsplash.com/photo-1490818387583-1b057d5f836c?q=80&w=600&auto=format&fit=crop';
             ?>
                 <div class="col-lg-4 col-md-6">
                     <div class="blog-card-modern shadow-sm">

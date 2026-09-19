@@ -1,8 +1,11 @@
 /* =====================================
    TOPBAR STYLING
    ===================================== */
+/* =====================================
+   TOPBAR STYLING (Avocado Theme)
+   ===================================== */
 .topbar {
-  background-color: #711b3c; /* Brand Maroon */
+  background-color: #1A4329; /* Dark Forest Green */
   color: #ffffff;
   font-size: 0.9rem;
 }
@@ -18,20 +21,20 @@
 }
 
 .topbar-right a {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-left: 10px;
   background: rgba(255, 255, 255, 0.1);
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
-  text-align: center;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   transition: all 0.3s ease;
 }
 
 .topbar-right a:hover {
-  background: #ffffff;
-  color: #711b3c;
+  background: #7CB342; /* Avocado Green */
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
@@ -42,59 +45,54 @@
   background-color: #ffffff;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
-  padding: 10px 0;
+  padding: 12px 0;
   z-index: 1030;
-}
-
-/* Logo Animation */
-.logo-animate {
-  transition: transform 0.3s ease;
-}
-.logo-animate:hover {
-  transform: scale(1.03);
 }
 
 /* Navigation Links */
 .custom-navbar .nav-link {
-  color: #222222 !important; /* Brand Charcoal */
+  color: #333333 !important; 
   font-weight: 600;
   font-size: 16px;
-  margin: 0 12px;
+  margin: 0 15px;
   position: relative;
   transition: color 0.3s ease;
+  padding-bottom: 8px; /* Spacing for the animated line */
 }
 
-/* Hover & Active State (Maroon Highlight) */
+/* Hover & Active State */
 .custom-navbar .nav-link:hover,
 .custom-navbar .nav-link.active {
-  color: #711b3c !important; /* Brand Maroon */
+  color: #1A4329 !important; /* Dark Green */
 }
 
-/* Smooth Bottom Border Animation */
-.custom-navbar .nav-link::after {
+/* THE FIX: Use ::before instead of ::after for the underline animation 
+   so it doesn't conflict with Bootstrap's dropdown arrow (caret) */
+.custom-navbar .nav-link::before {
   content: "";
   position: absolute;
   width: 0;
   height: 3px;
-  bottom: -5px;
-  left: 0;
-  background-color: #711b3c;
+  bottom: 0;
+  left: 50%; /* Start animation from center */
+  transform: translateX(-50%);
+  background-color: #7CB342; /* Avocado Accent Line */
   transition: width 0.3s ease;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
-.custom-navbar .nav-link:hover::after,
-.custom-navbar .nav-link.active::after {
+.custom-navbar .nav-link:hover::before,
+.custom-navbar .nav-link.active::before {
   width: 100%;
 }
 
-/* Dropdown Hover Logic for Desktop */
+/* =====================================
+   PREMIUM DROPDOWN STYLING
+   ===================================== */
 @media all and (min-width: 992px) {
   .custom-navbar .dropdown-menu {
     display: none;
     margin-top: 0;
-    border-radius: 8px;
-    padding: 10px 0;
   }
   .custom-navbar .dropdown:hover .dropdown-menu {
     display: block;
@@ -103,77 +101,184 @@
 }
 
 @keyframes fadeDropdown {
-  0% { opacity: 0; transform: translateY(10px); }
+  0% { opacity: 0; transform: translateY(15px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.dropdown-item {
-  font-weight: 500;
-  padding: 8px 20px;
-  color: #444;
-  transition: all 0.2s;
+.dropdown-premium {
+  border-radius: 12px !important;
+  padding: 12px 0 !important;
+  min-width: 220px;
 }
 
+.dropdown-item {
+  font-weight: 600;
+  padding: 10px 25px;
+  color: #555555;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Active & Hover state inside Dropdown */
 .dropdown-item:hover,
 .active-dropdown-item {
-  background-color: rgba(113, 27, 60, 0.05);
-  color: #711b3c !important;
-  font-weight: 700;
-  padding-left: 25px; /* Slight indent on hover/active */
+  background-color: #F8FAF8; /* Very light organic green */
+  color: #1A4329 !important;
+  padding-left: 35px; /* Slight push to the right */
 }
 
-/* Premium Call to Action Button */
+/* Left Accent border on dropdown item hover */
+.dropdown-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #7CB342;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.dropdown-item:hover::before,
+.active-dropdown-item::before {
+  transform: scaleY(1);
+}
+
+/* =====================================
+   PREMIUM CTA BUTTON
+   ===================================== */
 .btn-quote {
-  background-color: #711b3c;
+  background-color: #1A4329;
   color: white;
   border-radius: 30px;
-  padding: 8px 24px;
-  font-weight: 600;
-  border: 2px solid #711b3c;
-  transition: all 0.3s ease;
+  padding: 10px 28px;
+  font-weight: 700;
+  border: 2px solid #1A4329;
+  transition: all 0.4s ease;
+  letter-spacing: 0.5px;
 }
 .btn-quote:hover {
-  background-color: transparent;
-  color: #711b3c;
+  background-color: #7CB342;
+  border-color: #7CB342;
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(113, 27, 60, 0.2);
+  box-shadow: 0 8px 20px rgba(124, 179, 66, 0.25);
+}
+
+/* =====================================
+   BRAND LOGO & TEXT STYLING
+   ===================================== */
+.navbar-brand {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Toggler icon ke liye space ensure karna */
+    max-width: calc(100% - 55px); 
+}
+
+.brand-logo-img {
+    max-height: 55px; 
+    object-fit: contain;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* "AK Avocado" Styling */
+.brand-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #1A4329; /* Dark Forest Green */
+    letter-spacing: -0.5px;
+}
+
+/* "TRADERS" Styling */
+.brand-subtitle {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: #7CB342; /* Avocado Green Accent */
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* =====================================
+   MOBILE RESPONSIVE RULES (Same Line Fix)
+   ===================================== */
+@media (max-width: 576px) {
+    /* Container ko wrap hone se rokena taaki menu niche na gire */
+    .mobile-nav-container {
+        flex-wrap: nowrap !important;
+    }
+    
+    .brand-logo-img {
+        max-height: 42px !important; /* Mobile par logo thoda chota */
+    }
+    
+    .brand-title {
+        font-size: 1.15rem; /* Font size adjusted */
+    }
+    
+    .brand-subtitle {
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+    }
+    
+    /* Toggler ki extra padding hatayi taaki jagah bache */
+    .custom-toggler {
+        padding: 0.25rem 0.5rem !important;
+        margin-left: auto;
+    }
 }
 
 /* Mobile specific adjustments */
 @media (max-width: 991px) {
-  .custom-navbar .nav-link::after {
-    display: none; /* Mobile mein underline hide */
+  .custom-navbar .nav-link::before {
+    display: none; /* Hide underline on mobile */
   }
   .nav-item {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     padding-left: 10px;
   }
   .custom-navbar {
     padding: 15px 0;
   }
-  /* Ensure mobile toggler outline is removed */
   .navbar-toggler:focus {
     box-shadow: none;
   }
+  .dropdown-premium {
+    background-color: #F8FAF8;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-top: 10px;
+  }
 }
 /* ==============================
-       BREADCRUMB SECTION STYLING
-       ============================== */
+   BREADCRUMB SECTION STYLING
+   ============================== */
 .breadcrumb-wrapper {
   background:
-    linear-gradient(rgba(113, 27, 60, 0.9), rgba(34, 34, 34, 0.95)), /* Maroon to Charcoal Gradient */
-    url("https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2000&auto=format&fit=crop")
+    linear-gradient(rgba(26, 67, 41, 0.85), rgba(17, 45, 28, 0.95)), /* Dark Forest Green to Deep Green Gradient */
+    url("https://media.istockphoto.com/id/1210634323/photo/avocado-on-old-wooden-table-in-bowl.webp?a=1&b=1&s=612x612&w=0&k=20&c=ZQLXFhn0WVdOLBNQGU6RqkusJRUWsNg_JVAL2JFI0_E=")
       center center / cover no-repeat fixed;
   padding: 100px 0 80px 0;
   text-align: center;
   color: #ffffff;
   position: relative;
   margin-top: 0;
-  border-bottom: 4px solid #711b3c; /* Maroon border at bottom for premium feel */
+  border-bottom: 4px solid #7CB342; /* Avocado Green border at bottom for premium feel */
 }
 
 .breadcrumb-title {
-  font-family: inherit; /* Website ki default premium font lega */
+  font-family: inherit;
   font-size: 3rem;
   font-weight: 800;
   letter-spacing: 1px;
@@ -204,7 +309,7 @@
 }
 
 .custom-breadcrumb li a {
-  color: rgba(255, 255, 255, 0.7); /* Slightly faded white for inactive link */
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -219,7 +324,7 @@
 }
 
 .custom-breadcrumb li + li::before {
-  content: "\276F"; /* Right-pointing angle quotation mark */
+  content: "\276F"; 
   padding: 0 12px;
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.9rem;
@@ -255,11 +360,13 @@
     font-size: 0.95rem;
   }
 }
-
+/* ==============================
+   FOOTER SECTION STYLING (AK Avocado Theme)
+   ============================== */
 .custom-footer {
-  background-color: #151515;
+  background-color: #0E1F14; /* Deep Forest Dark Green */
   color: #e0e0e0;
-  font-family: "Inter", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .footer-heading {
@@ -278,14 +385,19 @@
   bottom: 0;
   width: 45px;
   height: 3px;
-  background-color: #711b3c; /* Brand Maroon */
+  background-color: #7CB342; /* Avocado Green Accent */
   border-radius: 2px;
 }
 
 .footer-text {
-  color: #a9a9a9 !important; /* Light Grey for visibility */
+  color: #a9a9a9 !important; /* Light Grey for readability */
   line-height: 1.7;
   font-size: 0.95rem;
+}
+
+.hover-white:hover {
+  color: #ffffff !important;
+  transition: color 0.3s ease;
 }
 
 .footer-links li {
@@ -297,6 +409,7 @@
   text-decoration: none;
   transition: all 0.3s ease;
   display: inline-block;
+  font-weight: 500;
 }
 
 .footer-links a:hover {
@@ -307,8 +420,8 @@
 .footer-contact-icon {
   width: 35px;
   height: 35px;
-  background-color: rgba(113, 27, 60, 0.15); /* Soft maroon bg */
-  color: #df6e97; /* Lighter maroon for dark bg contrast */
+  background-color: rgba(124, 179, 66, 0.15); /* Soft Avocado Green bg */
+  color: #7CB342; /* Bright Avocado Green */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -332,9 +445,12 @@
 
 .footer-social a:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(124, 179, 66, 0.3);
 }
 
+/* ==============================
+   FLOATING ACTION BUTTONS
+   ============================== */
 .floating-contact {
   position: fixed;
   bottom: 30px;
@@ -345,7 +461,6 @@
   z-index: 9999;
 }
 
-/* Common Button Styling */
 .float-btn {
   width: 55px;
   height: 55px;
@@ -360,33 +475,28 @@
   position: relative;
 }
 
-/* Hover effect */
 .float-btn:hover {
   transform: scale(1.1);
   color: #ffffff;
 }
 
-/* WhatsApp Specific Styling */
+/* WhatsApp Styling */
 .float-whatsapp {
   background-color: #25d366;
+  animation: pulse-green 2s infinite;
 }
 
 .float-whatsapp:hover {
   background-color: #20b858;
 }
 
-/* Phone Specific Styling (Using Brand Maroon) */
+/* Phone Styling (Brand Dark Green) */
 .float-phone {
-  background-color: #711b3c;
+  background-color: #1A4329;
 }
 
 .float-phone:hover {
-  background-color: #5a152f;
-}
-
-/* Optional Pulse Animation for WhatsApp to grab attention */
-.float-whatsapp {
-  animation: pulse-green 2s infinite;
+  background-color: #7CB342;
 }
 
 @keyframes pulse-green {
@@ -401,7 +511,7 @@
   }
 }
 
-/* Mobile Responsive adjustments */
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .floating-contact {
     bottom: 20px;

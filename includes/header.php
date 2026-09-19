@@ -107,12 +107,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="container">
         <div class="row align-items-center py-2">
             <div class="col-md-7 topbar-left">
-                <a href="mailto:<?= htmlspecialchars($t_email); ?>"><i class="bi bi-envelope-fill me-1"></i> <?= htmlspecialchars($t_email); ?></a>
-                <span class="mx-2 text-white-50">|</span>
-                <a href="tel:<?= preg_replace('/[^0-9+]/', '', $t_phone); ?>"><i class="bi bi-telephone-fill me-1"></i> <?= htmlspecialchars($t_phone); ?></a>
+                <a href="mailto:<?= htmlspecialchars($t_email); ?>"><i class="bi bi-envelope-fill me-2"></i><?= htmlspecialchars($t_email); ?></a>
+                <span class="mx-3 text-white-50">|</span>
+                <a href="tel:<?= preg_replace('/[^0-9+]/', '', $t_phone); ?>"><i class="bi bi-telephone-fill me-2"></i><?= htmlspecialchars($t_phone); ?></a>
             </div>
             <div class="col-md-5 text-end topbar-right">
-                <span class="me-2 text-white-50 small">Follow Us:</span>
+                <span class="me-3 text-white-50 small fw-medium">Follow Us:</span>
                 <?php if($t_fb != '#') echo "<a href='$t_fb' target='_blank'><i class='bi bi-facebook'></i></a>"; ?>
                 <?php if($t_linkedin != '#') echo "<a href='$t_linkedin' target='_blank'><i class='bi bi-linkedin'></i></a>"; ?>
                 <?php if($t_wp != '#') echo "<a href='$t_wp' target='_blank'><i class='bi bi-whatsapp'></i></a>"; ?>
@@ -123,14 +123,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Header / Navbar Section -->
 <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
-    <div class="container">
+    <div class="container mobile-nav-container">
         
-        <!-- Navbar Brand with Mobile Fix (max-width prevents pushing button to next line) -->
-        <a class="navbar-brand d-flex align-items-center" href="index.php" style="max-width: 70vw;">
-            <img src="<?= htmlspecialchars($header_logo); ?>" alt="Bhagirath Enterprise Logo" class="logo-animate img-fluid" style="max-height: 65px; object-fit: contain;" onerror="this.src='assets/images/logo/logo.png'">
+        <!-- Navbar Brand with Company Name and Mobile Fix -->
+        <a class="navbar-brand d-flex align-items-center" href="index.php">
+            <!-- Logo image -->
+            <img src="<?= htmlspecialchars($header_logo); ?>" alt="AK Avocado Traders Logo" class="logo-animate img-fluid brand-logo-img" onerror="this.src='assets/images/logo/logo.png'">
+            
+            <!-- Company Name Text -->
+            <div class="brand-text ms-2 lh-1">
+                <span class="brand-title d-block">AK AVOCADO</span>
+                <span class="brand-subtitle d-block">TRADERS</span>
+            </div>
         </a>
         
-        <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- Toggler Button -->
+        <button class="navbar-toggler shadow-none border-0 p-1 custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         
@@ -144,12 +152,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <a class="nav-link <?= ($current_page == 'about.php') ? 'active' : ''; ?>" href="about.php">About Us</a>
                 </li>
                 
-                <!-- Dynamic Products Dropdown (Hover Enabled in CSS) -->
+                <!-- Dynamic Products Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle <?= ($current_page == 'products.php' || $current_page == 'product-details.php') ? 'active' : ''; ?>" href="products.php" id="productsDropdown" data-bs-toggle="dropdown" aria-expanded="false" onclick="window.location.href='products.php';">
                         Products
                     </a>
-                    <ul class="dropdown-menu border-0 shadow-lg" aria-labelledby="productsDropdown">
+                    <ul class="dropdown-menu dropdown-premium border-0 shadow-lg" aria-labelledby="productsDropdown">
                         <?php 
                         if (isset($cats_dropdown_query) && mysqli_num_rows($cats_dropdown_query) > 0) {
                             while($cat = mysqli_fetch_assoc($cats_dropdown_query)) {

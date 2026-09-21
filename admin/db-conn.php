@@ -17,10 +17,10 @@ if ($local) {
     $site = "http://localhost/office_php_project/avacado/";
 } else {
     $host = 'localhost';
-    $username = 'u799879276_bhagirath_db';
-    $password = 'Bhagi@rath1';
-    $dbName = 'u799879276_bhagirath_db';
-    $site = 'https://royalblue-gazelle-538620.hostingersite.com/';
+    $username = 'u776339737_avacado_db';
+    $password = 'Avacado@traders1';
+    $dbName = 'u776339737_avacado_db';
+    $site = 'https://slategray-cobra-224159.hostingersite.com/';
 }
 
 // Make `$site` global

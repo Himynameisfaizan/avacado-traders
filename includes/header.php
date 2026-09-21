@@ -4,7 +4,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 // --- DYNAMIC SEO HANDLING ---
 if (!isset($pageTitle)) { 
-    $pageTitle = "Bhagirath Enterprise | Premium Agricultural Exports"; 
+    $pageTitle = "AK Avocado Traders | Premium Agricultural Exports"; 
 }
 if (!isset($meta_description)) { 
     $meta_description = "Bhagirath Enterprise is a trusted global exporter of premium quality dry fruits, whole spices, and authentic Indian agricultural products."; 

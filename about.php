@@ -1,10 +1,10 @@
 <?php
 include 'config/connect.php';
 
-// SEO Optimized Variables for Bhagirath Enterprise
-$pageTitle = "About Us ";
-$meta_description = "Bhagirath Enterprise is a leading global exporter of premium Indian agricultural products, specializing in Dry Fruits, Whole Spices, and authentic farm-fresh goods.";
-$meta_keywords = "Bhagirath Enterprise, agricultural exporter India, premium dry fruits export, Indian whole spices supplier, bulk spices exporter, global agri trade, New Delhi exporters";
+// SEO Optimized Variables for AK Avocado Traders
+$pageTitle = "About Us | AK Avocado Traders";
+$meta_description = "AK Avocado Traders is a leading global exporter of premium quality avocados and fresh agricultural produce, ensuring farm-fresh delivery and sustainable practices.";
+$meta_keywords = "AK Avocado Traders, avocado exporter, premium avocados, fresh produce export, Hass avocados, sustainable farming, agricultural trade";
 
 $brands_array = [];
 if (isset($conn)) {
@@ -18,58 +18,70 @@ if (isset($conn)) {
 ?>
 
 <?php include 'includes/header.php'; ?>
-
 <?php include 'includes/breadcrumb.php'; ?>
 
 <!-- 1. ABOUT COMPANY SECTION (SEO H1 Tag applied here) -->
 <section class="inner-about section-padding">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6 reveal mb-4 mb-lg-0">
+            <div class="col-lg-6 reveal mb-5 mb-lg-0">
                 <div class="about-image-collage position-relative">
-                    <img src="https://images.unsplash.com/photo-1716816211590-c15a328a5ff0?w=500&auto=format&fit=crop&q=60" alt="Bhagirath Enterprise Export Facility" class="about-img-1 w-100 rounded shadow-lg" style="object-fit: cover; height: 350px;">
-                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=600&auto=format&fit=crop" alt="Premium Indian Spices and Dry Fruits" class="about-img-2 position-absolute border border-white border-5 rounded shadow" style="width: 250px; bottom: -30px; right: -20px;">
+                    <!-- Fresh Avocado Harvest Image -->
+                    <img src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?q=80&w=800&auto=format&fit=crop" alt="AK Avocado Traders Export Facility" class="about-img-1 w-100 rounded-4 shadow-lg" style="object-fit: cover; height: 400px;">
+                    <!-- Premium Close-up Image -->
+                    <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=600&auto=format&fit=crop" alt="Premium Fresh Avocados" class="about-img-2 position-absolute border border-white border-5 rounded-4 shadow" style="width: 250px; bottom: -40px; right: -20px; height: 250px; object-fit: cover;">
                 </div>
             </div>
             <div class="col-lg-6 ps-lg-5 reveal mt-5 mt-lg-0">
-                <span class="sec-subtitle text-uppercase fw-bold" style="color: #E3000F; letter-spacing: 1px; font-size: 14px;">About Bhagirath Enterprise</span>
-                <h1 class="sec-title mb-4" style="color: #17385A; font-weight: 700; font-size: 2.2rem; line-height: 1.3;">Exporting the Finest Agricultural Wealth of India to the World.</h1>
-                <p class="about-desc mb-3" style="color: #555; line-height: 1.7;">
-                    <strong>Bhagirath Enterprise</strong> has established itself as a premier global exporter of high-quality agricultural commodities. Operating from the heart of Delhi, India, we bridge the gap between India's rich, fertile farms and international markets, delivering excellence in every shipment.
+                <span class="sec-subtitle text-uppercase fw-bold badge-organic mb-3">About AK Avocado Traders</span>
+                <h1 class="sec-title mb-4">Delivering Nature's Finest Avocados to the World.</h1>
+                <p class="about-desc mb-3 text-muted-organic">
+                    <strong>AK Avocado Traders</strong> has established itself as a premier global exporter of high-quality avocados and fresh agricultural commodities. We bridge the gap between rich, fertile farms and international markets, delivering excellence, nutrition, and natural taste in every shipment.
                 </p>
-                <p class="about-desc mb-4" style="color: #555; line-height: 1.7;">
-                    Specializing in the export of premium <strong>Whole Spices, Dry Fruits,</strong> and authentic agricultural products, we ensure that our global clientele receives 100% pure, unadulterated, and export-grade materials. Our stringent quality control, hygienic processing, and direct-from-farm sourcing make us a trusted partner in the international food trade.
+                <p class="about-desc mb-4 text-muted-organic">
+                    Specializing in premium export-grade produce, we ensure that our global clientele receives 100% pure, unadulterated, and sustainably sourced avocados. Our stringent quality control, hygienic grading processes, and direct-from-farm sourcing make us your most trusted partner in international fresh food trade.
                 </p>
+                
+                <div class="d-flex align-items-center mt-4">
+                    <div class="me-4 text-center">
+                        <h3 class="fw-bold mb-0" style="color: #7CB342;">100%</h3>
+                        <span class="small text-muted fw-bold">Organic</span>
+                    </div>
+                    <div class="me-4 text-center">
+                        <h3 class="fw-bold mb-0" style="color: #1A4329;">Global</h3>
+                        <span class="small text-muted fw-bold">Export</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- 2. MISSION & VISION SECTION -->
-<section class="mv-section section-padding" style="background-color: #f8f9fa;">
+<section class="mv-section section-padding bg-light-green">
     <div class="container">
         <div class="row g-4">
             <!-- Mission Card -->
             <div class="col-lg-6 reveal">
-                <div class="mv-card bg-white p-5 rounded-4 shadow-sm h-100" style="border-top: 4px solid #E3000F;">
-                    <div class="icon-wrap mb-4" style="width: 60px; height: 60px; background: rgba(227,0,15,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <i class="fa-solid fa-bullseye mv-icon" style="font-size: 24px; color: #E3000F;"></i>
+                <div class="mv-card bg-white p-5 rounded-4 shadow-sm h-100 border-accent-green">
+                    <div class="icon-wrap mb-4 icon-circle-green">
+                        <i class="bi bi-bullseye mv-icon"></i>
                     </div>
-                    <h3 class="mv-title" style="color: #17385A; font-weight: 700; margin-bottom: 15px;">Our Mission</h3>
-                    <p class="about-desc mb-0" style="color: #666; line-height: 1.6;">
-                        To consistently deliver superior quality agricultural products to global markets while maintaining ethical sourcing practices. We aim to empower local Indian farmers and provide international consumers with safe, hygienic, and authentic flavors.
+                    <h3 class="mv-title">Our Mission</h3>
+                    <p class="about-desc mb-0">
+                        To consistently deliver superior quality avocados and agricultural products to global markets while maintaining ethical and sustainable farming practices. We aim to empower local farmers and provide international consumers with fresh, nutritious, and authentic produce.
                     </p>
                 </div>
             </div>
             <!-- Vision Card -->
             <div class="col-lg-6 reveal">
-                <div class="mv-card bg-white p-5 rounded-4 shadow-sm h-100" style="border-top: 4px solid #17385A;">
-                    <div class="icon-wrap mb-4" style="width: 60px; height: 60px; background: rgba(23,56,90,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        <i class="fa-solid fa-eye mv-icon" style="font-size: 24px; color: #17385A;"></i>
+                <div class="mv-card bg-white p-5 rounded-4 shadow-sm h-100 border-primary-dark">
+                    <div class="icon-wrap mb-4 icon-circle-dark">
+                        <i class="bi bi-eye-fill mv-icon"></i>
                     </div>
-                    <h3 class="mv-title" style="color: #17385A; font-weight: 700; margin-bottom: 15px;">Our Vision</h3>
-                    <p class="about-desc mb-0" style="color: #666; line-height: 1.6;">
-                        To be the world's most reliable and sustainable partner in the agricultural export industry, recognized globally for our uncompromising quality standards, competitive pricing, and commitment to global food safety.
+                    <h3 class="mv-title">Our Vision</h3>
+                    <p class="about-desc mb-0">
+                        To be the world's most reliable and sustainable partner in the agricultural export industry, recognized globally for our uncompromising quality standards, timely delivery, and deep commitment to global food safety and environmental health.
                     </p>
                 </div>
             </div>
@@ -82,51 +94,51 @@ if (isset($conn)) {
     <div class="container">
         <div class="row text-center mb-5 reveal">
             <div class="col-12">
-                <span class="sec-subtitle text-uppercase fw-bold" style="color: #E3000F; letter-spacing: 1px; font-size: 14px;">The Bhagirath Enterprise Advantage</span>
-                <h2 class="sec-title" style="color: #17385A; font-weight: 700;">Why Partner With Us?</h2>
+                <span class="sec-subtitle badge-organic mb-2">The AK Advantage</span>
+                <h2 class="sec-title">Why Partner With Us?</h2>
             </div>
         </div>
 
-        <div class="row align-items-center">
+        <div class="row align-items-center g-4">
             <!-- Left Side Points -->
             <div class="col-lg-4 reveal">
-                <div class="wcu-list-item d-flex align-items-start mb-4">
-                    <div class="wcu-list-icon me-3 mt-1" style="color: #E3000F; font-size: 1.5rem;"><i class="fa-solid fa-leaf"></i></div>
+                <div class="wcu-list-item d-flex align-items-start mb-4 p-3 rounded-4 hover-box">
+                    <div class="wcu-list-icon me-3 mt-1"><i class="bi bi-tree-fill"></i></div>
                     <div class="wcu-list-content">
-                        <h4 style="color: #17385A; font-weight: 600; font-size: 1.1rem;">Farm-Fresh Sourcing</h4>
-                        <p class="small text-muted">We procure our dry fruits and spices directly from the most fertile and trusted agricultural regions.</p>
+                        <h4>Farm-Fresh Sourcing</h4>
+                        <p class="small text-muted mb-0">We procure our avocados directly from the most fertile, sustainable, and trusted agricultural regions.</p>
                     </div>
                 </div>
-                <div class="wcu-list-item d-flex align-items-start mb-4">
-                    <div class="wcu-list-icon me-3 mt-1" style="color: #E3000F; font-size: 1.5rem;"><i class="fa-solid fa-certificate"></i></div>
+                <div class="wcu-list-item d-flex align-items-start mb-4 p-3 rounded-4 hover-box">
+                    <div class="wcu-list-icon me-3 mt-1"><i class="bi bi-patch-check-fill"></i></div>
                     <div class="wcu-list-content">
-                        <h4 style="color: #17385A; font-weight: 600; font-size: 1.1rem;">Certified Quality</h4>
-                        <p class="small text-muted">Strict adherence to global food safety standards, fully compliant with international export boards.</p>
+                        <h4>Certified Quality</h4>
+                        <p class="small text-muted mb-0">Strict adherence to global food safety standards, fully compliant with international export boards.</p>
                     </div>
                 </div>
             </div>
 
             <!-- Center Image -->
             <div class="col-lg-4 text-center reveal mb-4 mb-lg-0">
-                <div style="padding: 15px; border: 2px dashed #E3000F; border-radius: 50%; display: inline-block;">
-                    <img src="https://images.unsplash.com/photo-1493946243886-c4d6f4614ff3?q=80&w=600&auto=format&fit=crop" alt="Global Export" style="width: 100%; max-width: 300px; border-radius: 50%; object-fit: cover; aspect-ratio: 1/1;">
+                <div class="center-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1590005024862-6b67679a29fb?q=80&w=600&auto=format&fit=crop" alt="Global Export" class="shadow-lg">
                 </div>
             </div>
 
             <!-- Right Side Points -->
             <div class="col-lg-4 reveal">
-                <div class="wcu-list-item d-flex align-items-start mb-4">
-                    <div class="wcu-list-icon me-3 mt-1" style="color: #E3000F; font-size: 1.5rem;"><i class="fa-solid fa-box-open"></i></div>
+                <div class="wcu-list-item d-flex align-items-start mb-4 p-3 rounded-4 hover-box">
+                    <div class="wcu-list-icon me-3 mt-1"><i class="bi bi-box-seam-fill"></i></div>
                     <div class="wcu-list-content">
-                        <h4 style="color: #17385A; font-weight: 600; font-size: 1.1rem;">Premium Export Packaging</h4>
-                        <p class="small text-muted">Moisture-proof, container-safe packaging that preserves aroma, taste, and product integrity during transit.</p>
+                        <h4>Premium Export Packaging</h4>
+                        <p class="small text-muted mb-0">Temperature-controlled, damage-proof packaging that preserves freshness and product integrity during transit.</p>
                     </div>
                 </div>
-                <div class="wcu-list-item d-flex align-items-start mb-4">
-                    <div class="wcu-list-icon me-3 mt-1" style="color: #E3000F; font-size: 1.5rem;"><i class="fa-solid fa-ship"></i></div>
+                <div class="wcu-list-item d-flex align-items-start mb-4 p-3 rounded-4 hover-box">
+                    <div class="wcu-list-icon me-3 mt-1"><i class="bi bi-globe2"></i></div>
                     <div class="wcu-list-content">
-                        <h4 style="color: #17385A; font-weight: 600; font-size: 1.1rem;">Global Logistics</h4>
-                        <p class="small text-muted">A robust supply chain and freight network ensuring safe, hassle-free, and timely delivery across borders.</p>
+                        <h4>Global Logistics</h4>
+                        <p class="small text-muted mb-0">A robust supply chain and cold-storage freight network ensuring safe, hassle-free, and timely delivery across borders.</p>
                     </div>
                 </div>
             </div>
@@ -134,12 +146,12 @@ if (isset($conn)) {
     </div>
 </section>
 
-<!-- 4. Dynamic Brands / Clients Slider Section -->
-<section class="brands-slider-section py-5" style="background-color: #f8f9fa; border-top: 1px solid #eaeaea;">
+<!-- 4. Dynamic Brands / Clients Slider Section (Same logic as provided) -->
+<section class="brands-slider-section py-5 bg-light-green border-top">
     <div class="container">
-        <h2 class="text-center mb-5" style="color: #17385A; font-weight: 700; font-size: 1.5rem; letter-spacing: 1px;">OUR TRUSTED CLIENTS & PARTNERS</h2>
+        <h2 class="text-center mb-5 sec-title" style="font-size: 1.8rem;">OUR TRUSTED CLIENTS & PARTNERS</h2>
         
-        <div class="brand-slider-container">
+        <div class="brand-slider-container bg-white p-4 rounded-4 shadow-sm">
             <div class="brand-slide-track">
                 <?php if(!empty($brands_array)): ?>
                     <?php 
@@ -159,9 +171,9 @@ if (isset($conn)) {
                     endfor; 
                     ?>
                 <?php else: ?>
-                    <div class="brand-slide"><h4 class="brand-logo" style="color: #999;">FSSAI</h4></div>
-                    <div class="brand-slide"><h4 class="brand-logo" style="color: #999;">APEDA</h4></div>
-                    <div class="brand-slide"><h4 class="brand-logo" style="color: #999;">SPICES BOARD</h4></div>
+                    <div class="brand-slide"><h4 class="brand-logo fw-bold text-muted">GLOBAL GAP</h4></div>
+                    <div class="brand-slide"><h4 class="brand-logo fw-bold text-muted">APEDA</h4></div>
+                    <div class="brand-slide"><h4 class="brand-logo fw-bold text-muted">FSSAI</h4></div>
                 <?php endif; ?>
             </div>
         </div>
@@ -169,79 +181,43 @@ if (isset($conn)) {
 </section>
 
 <!-- 5. HOW WE WORK (WORKING PROCESS) -->
-<section class="process-section">
-    <div class="container">
-        <div class="row text-center mb-4 reveal">
+<section class="process-section section-padding position-relative">
+    <div class="container position-relative z-1">
+        <div class="row text-center mb-5 reveal">
             <div class="col-12">
-                <span class="sec-subtitle" style="color: #ffffff;">Our Supply Chain</span>
-                <h2 class="sec-title" style="color: #ffffff;">The Export Process</h2>
+                <span class="sec-subtitle text-avocado">Our Supply Chain</span>
+                <h2 class="sec-title text-white">The Export Process</h2>
             </div>
         </div>
 
         <div class="process-grid reveal">
             <!-- Step 1 -->
             <div class="process-step">
-                <div class="process-icon"><i class="fa-solid fa-tractor"></i></div>
+                <div class="process-icon"><i class="bi bi-basket-fill"></i></div>
                 <h4>1. Ethical Sourcing</h4>
-                <p>Procuring premium raw materials straight from certified farmers.</p>
+                <p>Procuring premium avocados straight from certified, sustainable farms.</p>
             </div>
             <!-- Step 2 -->
             <div class="process-step">
-                <div class="process-icon"><i class="fa-solid fa-gears"></i></div>
+                <div class="process-icon"><i class="bi bi-ui-checks-grid"></i></div>
                 <h4>2. Processing & Grading</h4>
-                <p>Hygienic sorting, cleaning, and processing in our modern facilities.</p>
+                <p>Hygienic sorting, cleaning, and grading based on size and export quality.</p>
             </div>
             <!-- Step 3 -->
             <div class="process-step">
-                <div class="process-icon"><i class="fa-solid fa-microscope"></i></div>
+                <div class="process-icon"><i class="bi bi-shield-check"></i></div>
                 <h4>3. Quality Assurance</h4>
-                <p>Rigorous lab testing to ensure export-grade purity and compliance.</p>
+                <p>Rigorous testing to ensure uncompromised purity and nutritional value.</p>
             </div>
             <!-- Step 4 -->
             <div class="process-step">
-                <div class="process-icon"><i class="fa-solid fa-globe"></i></div>
+                <div class="process-icon"><i class="bi bi-airplane-fill"></i></div>
                 <h4>4. Secure Export</h4>
-                <p>Customs clearance and container shipping to international destinations.</p>
+                <p>Cold-chain shipping and customs clearance to international destinations.</p>
             </div>
         </div>
     </div>
 </section>
-
-
-
-
-<!-- Simple CSS for smooth reveals on scroll (If not already in your CSS file) -->
-<style>
-    .reveal {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease-out;
-    }
-    .reveal.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    /* Adding connecting lines for process steps on desktop */
-    @media (min-width: 992px) {
-        .process-step:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 40px;
-            right: -50%;
-            width: 100%;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.2);
-            border-top: 2px dashed rgba(255, 255, 255, 0.5);
-            z-index: 0;
-        }
-        .process-step .process-icon {
-            position: relative;
-            z-index: 1;
-        }
-    }
-</style>
-
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -260,5 +236,5 @@ if (isset($conn)) {
         reveals.forEach(reveal => revealOnScroll.observe(reveal));
     });
 </script>
-<!-- Include Footer -->
+
 <?php include 'includes/footer.php'; ?>

@@ -1,27 +1,71 @@
+/* ==============================
+   AK AVOCADO TRADERS - ABOUT US
+   Colors: 
+   Primary Dark: #1A4329
+   Accent Green: #7CB342
+   Backgrounds: #FFFFFF, #F8FAF8
+   ============================== */
 :root {
-  --primary-green: #2b5e2c;
-  --accent-orange: #e67e22;
-  --bg-light: #f9fafb;
-  --text-dark: #1a1a1a;
-  --text-muted: #666666;
+  --primary-dark: #1A4329;
+  --accent-green: #7CB342;
+  --bg-light: #F8FAF8;
+  --text-dark: #222222;
+  --text-muted: #555555;
 }
 
 /* Scroll Animation */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
-  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ==============================
-       1. ABOUT COMPANY SECTION
-       ============================== */
-.inner-about {
+.section-padding {
   padding: 100px 0;
+}
+
+.bg-light-green {
+  background-color: var(--bg-light);
+}
+
+.text-avocado {
+  color: var(--accent-green) !important;
+}
+
+.text-muted-organic {
+  color: var(--text-muted);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+/* Section Headings */
+.badge-organic {
+  background-color: rgba(124, 179, 66, 0.1);
+  color: var(--primary-dark);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: inline-block;
+}
+
+.sec-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  line-height: 1.2;
+}
+
+/* ==============================
+   1. ABOUT COMPANY SECTION
+   ============================== */
+.inner-about {
   background: #ffffff;
 }
 
@@ -29,135 +73,112 @@
   position: relative;
 }
 
-.about-img-1 {
-  width: 80%;
-  border-radius: 15px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
-
-.about-img-2 {
-  position: absolute;
-  bottom: -30px;
-  right: 0;
-  width: 50%;
-  border: 8px solid #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-.sec-subtitle {
-  color: var(--accent-orange);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 14px;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.sec-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--primary-green);
-  line-height: 1.2;
-  margin-bottom: 20px;
-}
-
-.about-desc {
-  color: var(--text-muted);
-  line-height: 1.7;
-  font-size: 1.05rem;
-  margin-bottom: 15px;
-}
-
 /* ==============================
-       2. MISSION & VISION SECTION
-       ============================== */
-.mv-section {
-  padding: 80px 0;
-  background: var(--bg-light);
-}
-
+   2. MISSION & VISION SECTION
+   ============================== */
 .mv-card {
-  background: #ffffff;
-  padding: 50px 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-  height: 100%;
-  border-top: 4px solid transparent;
   transition: all 0.4s ease;
+  border-top: 4px solid transparent;
 }
 
 .mv-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  border-top-color: var(--accent-orange);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(26, 67, 41, 0.08) !important;
 }
 
-.mv-icon {
-  font-size: 3.5rem;
-  color: var(--primary-green);
-  margin-bottom: 20px;
-}
+.border-accent-green { border-top-color: var(--accent-green); }
+.border-primary-dark { border-top-color: var(--primary-dark); }
 
-.mv-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: var(--text-dark);
-}
-
-/* ==============================
-       3. WHY CHOOSE US SECTION
-       ============================== */
-.inner-wcu {
-  padding: 100px 0;
-  background: #ffffff;
-}
-
-.wcu-list-item {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 30px;
-}
-
-.wcu-list-icon {
-  width: 60px;
-  height: 60px;
-  background: rgba(230, 126, 34, 0.1);
-  color: var(--accent-orange);
+.icon-wrap {
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  margin-right: 20px;
+}
+
+.icon-circle-green {
+  background: rgba(124, 179, 66, 0.15);
+  color: var(--accent-green);
+}
+
+.icon-circle-dark {
+  background: rgba(26, 67, 41, 0.1);
+  color: var(--primary-dark);
+}
+
+.mv-icon {
+  font-size: 2rem;
+}
+
+.mv-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: var(--primary-dark);
+}
+
+/* ==============================
+   3. WHY CHOOSE US SECTION
+   ============================== */
+.hover-box {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.hover-box:hover {
+  background-color: var(--bg-light);
+  border-color: rgba(124, 179, 66, 0.2);
+  transform: translateX(5px);
+}
+
+.wcu-list-icon {
+  width: 55px;
+  height: 55px;
+  background: rgba(124, 179, 66, 0.15);
+  color: var(--accent-green);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
   flex-shrink: 0;
   transition: all 0.3s ease;
 }
 
-.wcu-list-item:hover .wcu-list-icon {
-  background: var(--accent-orange);
+.hover-box:hover .wcu-list-icon {
+  background: var(--accent-green);
   color: #ffffff;
 }
 
 .wcu-list-content h4 {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  color: var(--primary-dark);
 }
 
-.wcu-list-content p {
-  color: var(--text-muted);
-  line-height: 1.6;
+.center-img-wrapper {
+  padding: 15px;
+  border: 2px dashed var(--accent-green);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.center-img-wrapper img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1/1;
 }
 
 /* ==============================
-       4. HOW WE WORK (TIMELINE)
-       ============================== */
+   4. HOW WE WORK (TIMELINE)
+   ============================== */
 .process-section {
-  padding: 100px 0;
-  background: #17385A;
+  background: linear-gradient(135deg, #1A4329 0%, #0E1F14 100%);
   color: #ffffff;
 }
 
@@ -165,20 +186,22 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  margin-top: 50px;
   position: relative;
 }
 
 /* Connecting Line between steps */
-.process-grid::before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  left: 10%;
-  width: 80%;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.2);
-  z-index: 1;
+@media (min-width: 992px) {
+  .process-grid::before {
+    content: "";
+    position: absolute;
+    top: 45px;
+    left: 12%;
+    width: 75%;
+    height: 2px;
+    background: rgba(124, 179, 66, 0.3);
+    border-top: 2px dashed rgba(124, 179, 66, 0.6);
+    z-index: 0;
+  }
 }
 
 .process-step {
@@ -188,92 +211,49 @@
 }
 
 .process-icon {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   background: #ffffff;
-  color: var(--primary-green);
+  color: var(--primary-dark);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 2rem;
   margin: 0 auto 20px auto;
   box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s ease;
+  transition: all 0.4s ease;
 }
 
 .process-step:hover .process-icon {
   transform: scale(1.1);
-  color: var(--accent-orange);
+  background: var(--accent-green);
+  color: #ffffff;
+  box-shadow: 0 0 0 8px rgba(124, 179, 66, 0.25);
 }
 
 .process-step h4 {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .process-step p {
   font-size: 0.95rem;
   opacity: 0.8;
-}
-
-/* ==============================
-       5. FAQ ACCORDION SECTION
-       ============================== */
-.faq-section {
-  padding: 100px 0;
-  background: var(--bg-light);
-}
-
-.custom-accordion .accordion-item {
-  border: none;
-  margin-bottom: 15px;
-  border-radius: 8px !important;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
-}
-
-.custom-accordion .accordion-button {
-  background: #ffffff;
-  color: var(--text-dark);
-  font-weight: 600;
-  font-size: 1.1rem;
-  padding: 20px 25px;
-  box-shadow: none !important;
-}
-
-.custom-accordion .accordion-button:not(.collapsed) {
-  background: var(--primary-green);
-  color: #ffffff;
-}
-
-.custom-accordion .accordion-button::after {
-  transition: all 0.3s ease;
-}
-
-.custom-accordion .accordion-button:not(.collapsed)::after {
-  filter: brightness(0) invert(1); /* Changes icon to white */
-}
-
-.custom-accordion .accordion-body {
-  background: #ffffff;
-  color: var(--text-muted);
-  line-height: 1.7;
-  padding: 20px 25px;
-  border-top: 1px solid #f0f0f0;
+  line-height: 1.6;
 }
 
 /* Responsive */
 @media (max-width: 991px) {
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 40px 20px;
   }
-  .process-grid::before {
-    display: none;
-  } /* Hide line on mobile */
-  .about-image-collage {
-    margin-bottom: 50px;
+  .about-img-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -20px;
   }
 }
 @media (max-width: 575px) {
@@ -281,101 +261,9 @@
     grid-template-columns: 1fr;
   }
   .sec-title {
-    font-size: 2rem;
-  }
-}
-
-/* ==============================
-       GLOBAL & UTILITY STYLES
-       ============================== */
-:root {
-  --primary-green: #2b5e2c;
-  --accent-orange: #e67e22;
-  --text-dark: #1a1a1a;
-  --text-muted: #666666;
-  --bg-light: #f9fafb;
-}
-
-.section-padding {
-  padding: 100px 0;
-}
-.bg-light-gray {
-  background-color: var(--bg-light);
-}
-
-/* Scroll Reveal Animation */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Section Headings */
-.sec-subtitle {
-  color: var(--accent-orange);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 14px;
-  display: block;
-  margin-bottom: 10px;
-}
-.sec-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--primary-green);
-  margin-bottom: 20px;
-  line-height: 1.2;
-}
-
-/* ==============================
-       4. FAQ ACCORDION STYLING
-       ============================== */
-.faq-accordion .accordion-item {
-  border: none;
-  border-radius: 12px !important;
-  margin-bottom: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
-  overflow: hidden;
-}
-.faq-accordion .accordion-button {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--text-dark);
-  padding: 20px 25px;
-  background-color: #fff;
-  box-shadow: none;
-}
-.faq-accordion .accordion-button:not(.collapsed) {
-  color: var(--primary-green);
-  background-color: rgba(43, 94, 44, 0.03);
-}
-.faq-accordion .accordion-button::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' viewBox='0 0 16 16' fill='%232B5E2C'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-}
-.faq-accordion .accordion-body {
-  padding: 0 25px 25px 25px;
-  color: var(--text-muted);
-  line-height: 1.7;
-  background-color: rgba(43, 94, 44, 0.03);
-}
-
-/* Responsive */
-@media (max-width: 991px) {
-  .about-image-grid {
-    display: block;
+    font-size: 2.2rem;
   }
   .about-img-2 {
-    display: none;
-  } /* Hide staggered image on mobile */
-  .process-row::after {
-    display: none;
-  } /* Remove connecting line on mobile */
-  .process-step {
-    margin-bottom: 40px;
+    display: none; /* Mobile pe second overlap image hide taaki layout break na ho */
   }
 }

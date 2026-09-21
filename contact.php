@@ -1,16 +1,15 @@
 <?php
-// Database connection include karein
 include ('config/connect.php'); 
 
-$pageTitle = "Contact Us"; 
+$pageTitle = "Contact Us | AK Avocado Traders"; 
 
 // 1. Fetch Contact Details from Database
 $contactQuery = mysqli_query($conn, "SELECT * FROM contacts LIMIT 1");
 $contactInfo = mysqli_fetch_assoc($contactQuery);
 
-$siteAddress = !empty($contactInfo['address']) ? $contactInfo['address'] : 'BLOCK- J SF-2 J-39 Sector 12, Pratap Vihar, Ghaziabad - 201001, U.P, India.';
-$sitePhone = !empty($contactInfo['phone']) ? $contactInfo['phone'] : '+91 97171 79432';
-$siteEmail = !empty($contactInfo['email']) ? $contactInfo['email'] : 'info@kisantokitchen.com';
+$siteAddress = !empty($contactInfo['address']) ? $contactInfo['address'] : 'Office No-102, 1st Floor, Nitika Tower II, Block C-1, Pocket-4, Azadpur, Delhi - 110033';
+$sitePhone = !empty($contactInfo['phone']) ? $contactInfo['phone'] : '+91-8448211202';
+$siteEmail = !empty($contactInfo['email']) ? $contactInfo['email'] : 'info@akavocadotraders.com';
 $siteWorkingHours = !empty($contactInfo['working_hours']) ? $contactInfo['working_hours'] : 'Mon - Sat, 9:00 AM to 6:00 PM IST';
 
 // 2. Form Submission Logic for Inquiries Table
@@ -31,13 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_inquiry'])) {
     $insertQuery = "INSERT INTO inquiries (name, email, phone, subject, message, status) VALUES ('$name', '$email', '$phone', '$interest', '$message', 0)";
     
     if(mysqli_query($conn, $insertQuery)) {
-        $msg = "<div class='alert alert-success mt-3'>Thank you! Your quotation request has been sent successfully. Our team will contact you soon.</div>";
+        $msg = "<div class='alert alert-success mt-3' style='background: #D4EDDA; color: #155724; border-color: #C3E6CB; border-radius: 8px;'>Thank you! Your quotation request has been sent successfully. Our team will contact you soon.</div>";
     } else {
-        $msg = "<div class='alert alert-danger mt-3'>Oops! Something went wrong. Please try again or call us directly.</div>";
+        $msg = "<div class='alert alert-danger mt-3' style='border-radius: 8px;'>Oops! Something went wrong. Please try again or call us directly.</div>";
     }
 }
 
-// Include Header & Breadcrumb
 include 'includes/header.php'; 
 include 'includes/breadcrumb.php'; 
 ?>
@@ -47,18 +45,18 @@ include 'includes/breadcrumb.php';
      ============================== -->
 <section class="contact-page-section">
     <div class="container">
-        <div class="row">
+        <div class="row align-items-center">
             
             <!-- Left Side: Dynamic Contact Information -->
             <div class="col-lg-5 reveal">
                 <div class="contact-info-wrapper">
-                    <span class="sec-subtitle">Get In Touch</span>
+                    <span class="badge-organic">Get In Touch</span>
                     <h2 class="sec-title">Let's Discuss Your Export Needs.</h2>
-                    <p class="contact-desc">Have questions about our premium spices, bulk pricing, or international shipping? Our dedicated team is ready to assist you. Reach out to us today!</p>
+                    <p class="contact-desc">Have questions about our premium avocados, bulk pricing, packaging, or international shipping? Our dedicated team is ready to assist you. Reach out to us today!</p>
                     
                     <!-- Location Card -->
                     <div class="info-card">
-                        <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="info-icon"><i class="bi bi-geo-alt-fill"></i></div>
                         <div class="info-content">
                             <h4>Head Office & Processing Unit</h4>
                             <p><?php echo $siteAddress; ?></p>
@@ -67,17 +65,17 @@ include 'includes/breadcrumb.php';
 
                     <!-- Phone Card -->
                     <div class="info-card">
-                        <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                        <div class="info-icon"><i class="bi bi-telephone-fill"></i></div>
                         <div class="info-content">
                             <h4>Phone Inquiry</h4>
-                            <a href="tel:<?php echo $sitePhone; ?>"><?php echo $sitePhone; ?></a>
+                            <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $sitePhone); ?>"><?php echo $sitePhone; ?></a>
                             <p style="font-size: 12px; margin-top: 5px;">(Available <?php echo $siteWorkingHours; ?>)</p>
                         </div>
                     </div>
 
                     <!-- Email Card -->
                     <div class="info-card">
-                        <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="info-icon"><i class="bi bi-envelope-fill"></i></div>
                         <div class="info-content">
                             <h4>Email Address</h4>
                             <a href="mailto:<?php echo $siteEmail; ?>"><?php echo $siteEmail; ?></a>
@@ -93,7 +91,6 @@ include 'includes/breadcrumb.php';
                     <h3>Request a Free Quotation</h3>
                     <p>Fill out the form below and our export manager will get back to you within 24 hours.</p>
                     
-                    <!-- Form Submission Alert Message -->
                     <?php echo $msg; ?>
                     
                     <form action="contact.php" method="POST">
@@ -117,21 +114,25 @@ include 'includes/breadcrumb.php';
 
                         <div class="form-group">
                             <select class="form-select" name="interest" required>
-                                <!-- URL se product name fetch karne ka logic -->
                                 <?php $selectedProduct = isset($_GET['product']) ? $_GET['product'] : ''; ?>
                                 <option value="" disabled <?php echo ($selectedProduct=='')?'selected':''; ?>>Select Product of Interest</option>
                                 <option value="General Inquiry">General Business Inquiry</option>
+                                <option value="Premium Hass Avocados" <?php echo ($selectedProduct=='Premium Hass Avocados')?'selected':''; ?>>Premium Hass Avocados</option>
+                                <option value="Organic Fuerte Avocados" <?php echo ($selectedProduct=='Organic Fuerte Avocados')?'selected':''; ?>>Organic Fuerte Avocados</option>
                                 
-                                <!-- Dynamic Products from Database -->
                                 <?php 
                                 $dropdownQuery = mysqli_query($conn, "SELECT pro_name FROM products WHERE status = 1");
-                                while($dropdownItem = mysqli_fetch_assoc($dropdownQuery)):
-                                    $isSelected = ($selectedProduct == $dropdownItem['pro_name']) ? 'selected' : '';
+                                if ($dropdownQuery && mysqli_num_rows($dropdownQuery) > 0) {
+                                    while($dropdownItem = mysqli_fetch_assoc($dropdownQuery)):
+                                        $isSelected = ($selectedProduct == $dropdownItem['pro_name']) ? 'selected' : '';
                                 ?>
                                 <option value="<?php echo $dropdownItem['pro_name']; ?>" <?php echo $isSelected; ?>>
                                     <?php echo $dropdownItem['pro_name']; ?>
                                 </option>
-                                <?php endwhile; ?>
+                                <?php 
+                                    endwhile; 
+                                }
+                                ?>
                             </select>
                         </div>
 
@@ -139,7 +140,7 @@ include 'includes/breadcrumb.php';
                             <textarea class="form-control" name="message" placeholder="Tell us about your requirement (Quantity, Destination Port, Packaging preference)..." required></textarea>
                         </div>
 
-                        <button type="submit" name="submit_inquiry" class="btn-submit">Send Message <i class="fa-regular fa-paper-plane ms-2"></i></button>
+                        <button type="submit" name="submit_inquiry" class="btn-submit">Send Message <i class="bi bi-send-fill ms-2"></i></button>
                     </form>
                 </div>
             </div>
@@ -154,9 +155,8 @@ include 'includes/breadcrumb.php';
 <section class="map-section reveal">
     <div class="container">
         <div class="map-container">
-            <!-- Dynamic map URL from database (fallback to ghaziabad map if empty) -->
             <?php 
-                $mapUrl = !empty($contactInfo['map']) ? $contactInfo['map'] : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112028.98822506727!2d77.35246733221995!3d28.66317765955627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf1bb41c50fdf%3A0xe6f06fd26a7798ba!2sGhaziabad%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin';
+                $mapUrl = !empty($contactInfo['map']) ? $contactInfo['map'] : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62237.761759075904!2d77.62710646054165!3d12.852310520678248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae6c9b3e97af09%3A0xe98cd46864ad9b2f!2sBengaluru%2C%20Karnataka%20560100!5e0!3m2!1sen!2sin!4v1789808240335!5m2!1sen!2sin';
             ?>
             <iframe src="<?php echo $mapUrl; ?>" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
@@ -170,13 +170,13 @@ include 'includes/breadcrumb.php';
     <div class="container">
         <div class="row justify-content-center text-center mb-5 reveal">
             <div class="col-lg-8">
-                <span class="sec-subtitle">Customer Support</span>
+                <span class="badge-organic mb-2">Customer Support</span>
                 <h2 class="sec-title">Common Queries</h2>
             </div>
         </div>
 
         <div class="row justify-content-center reveal">
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <div class="accordion faq-accordion" id="contactFaqAccordion">
                     
                     <div class="accordion-item">
@@ -213,7 +213,7 @@ include 'includes/breadcrumb.php';
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#contactFaqAccordion">
                             <div class="accordion-body">
-                                Absolutely. We offer FOB (Free On Board) as well as CIF (Cost, Insurance, and Freight) terms. Our logistics team handles all customs clearance and ensures secure delivery to your destination port.
+                                Absolutely. We offer FOB (Free On Board) as well as CIF (Cost, Insurance, and Freight) terms. Our logistics team handles all customs clearance, cold-chain transport, and ensures secure delivery to your destination port.
                             </div>
                         </div>
                     </div>
@@ -224,7 +224,6 @@ include 'includes/breadcrumb.php';
     </div>
 </section>
 
-<!-- Scroll Animation Script -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const reveals = document.querySelectorAll(".reveal");
@@ -241,5 +240,4 @@ include 'includes/breadcrumb.php';
     });
 </script>
 
-<!-- Include Footer -->
 <?php include 'includes/footer.php'; ?>
